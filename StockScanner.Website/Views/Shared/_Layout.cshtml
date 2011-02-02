@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>@ViewBag.Title</title>
+	<link href="@Url.Content("~/Content/Style1.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/template.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/suckerfish.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+	<link href="@Url.Content("~/Content/filters.css")" rel="stylesheet" type="text/css" />
+	<script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/jquery-ui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.fadeSliderToggle.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.imagetick.min.js")" type="text/javascript"></script>
+	<link href="@Url.Content("~/Scripts/css/black_red/jquery-ui-1.8.7.custom.css")" rel="stylesheet" media="screen" type="text/css" />
+	<link href="@Url.Content("~/Scripts/css/ui.jqgrid.css")" rel="stylesheet" media="screen" type="text/css" />
+	<script src="@Url.Content("~/Scripts/js/i18n/grid.locale-en.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/js/jqDnR.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/js/jqModal.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/js/grid.common.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/js/grid.formedit.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/js/jquery.jqGrid.min.js")" type="text/javascript"></script>
+</head>
+
+<body>
+	<div id="wrapper_bg">
+		<div id="wrapper_main">
+			<div class="clearfix" id="wrapper_top">
+				<a href="/" id="logo">
+					<img alt="Logo" src="/Content/images/logo.png" width="346" />
+				</a>
+				
+				<div id="wrapper_top_content">
+					<div id="search">
+						<form method="post" action="index.php?searchword=search...&amp;ordering=&amp;searchphrase=all&amp;option=com_search">
+							<div class="search">
+								<input type="text" onfocus="if(this.value=='search...') this.value='';" onblur="if(this.value=='') this.value='search...';" value="search..." size="20" class="inputbox" alt="Search" maxlength="20" id="mod_search_searchword" name="searchword" />	
+							 </div>
+							 <input type="hidden" value="search" name="task" />
+							 <input type="hidden" value="com_search" name="option" />
+						</form>
+					</div>
+					<div id="buttons">
+						<div>
+							<span id="login_btn"><a href="#">Login</a></span>
+							<span id="register_btn"><a href="/">Register</a></span>
+						</div>
+					</div>
+				</div>	
+			</div> 
+
+			<div id="wrapper_topheader">
+				<div class="clearfix" id="wrapper_highlight">
+					<div id="highlight">
+						<div id="news-highlight-1" class="gk_news_highlighter">
+							<div class="gk_news_highlighter_interface">    
+								<span class="text">HOT NEWS</span>
+								<div>
+									<a class="prev" href="#"></a>
+									<a class="next" href="#"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div id="datatop">
+						<span>Friday, 07 January 2011</span>
+					</div>
+				</div>
+
+				<div id="wrapper_menu1">
+					<div id="wrapper_menu2">
+						<div class="clearfix" id="horiz-menu">
+							<ul class="menu">
+								<li class="level1 active current">
+									<a class="level1 topdaddy" href="/">
+										<span>Home</span>
+									</a>
+								</li>
+								<li class="level1">
+									<a class="level1 topdaddy" href="/Home/About">
+										<span>About</span>
+									</a>
+								</li>
+							</ul>						
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="wrapper_content" class="clearfix wrapper_centered">
+					<div id="right" style="width: 300px; float:right; overflow:hidden;">
+                        <div style="padding-bottom:2px;">
+                        <div class="yahoo_finance_chart">
+                        <!-- Start of Yahoo! Finance code -->
+                        <iframe allowtransparency="true" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no" src="http://api.finance.yahoo.com/instrument/1.0/CZZ/badge;chart=6m;news=10;quote/HTML?AppID=aZ7IkZKdbwrKP_JZKl11zKmVL9hZ&sig=73kTkv.dkn9H0Fgj2e6lRwZ0ErM-&t=1294941889188" width="300px" height="1000px"><a href="http://finance.yahoo.com">Yahoo! Finance</a><br/></iframe>
+                        <!-- End of Yahoo! Finance code -->
+                        </div>
+                        </div>
+					</div>
+					<div id="content" class="users_wrap" style="width:680px; float:left; overflow:hidden;">
+                        <div class="content_body">
+						    @RenderBody()
+                        </div>
+                        <div id="progressbar"></div>
+                        <script>
+                            $(function () {
+
+                                $("#progressbar").progressbar({ value: 0 });
+                                setTimeout(updateProgress, 500);
+                            });
+
+                            function updateProgress() {
+
+                                $.getJSON("/Home/JobProgressBar/?jobKey=SyncStockHistoricalDataJob",
+                                    function (data) {
+                                        var progress = data.Progress;
+                                        if (progress > -1) {
+                                            $("#progressbar").show();
+
+                                            if (progress <= 100) {
+                                                $("#progressbar").progressbar("option", "value", progress);
+                                                //$("#progressbar div").eq(0).text(data.Message);
+                                            }
+                                        }
+                                        else
+                                            $("#progressbar").hide();
+
+                                        setTimeout(updateProgress, 1000);
+                                    }
+                                );
+                            }
+                        </script>
+
+					</div>
+			</div>
+
+			<div class="clearfix" id="wrapper_footer">
+				<div id="footer_menu">
+					<ul class="menu">
+						<li class="level1">
+							<a class="level1 topdaddy" href="/">
+								<span>Home</span>
+							</a>
+						</li>
+						<li class="level1">
+							<a class="level1 topdaddy" href="/">
+								<span>FAQ</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+					<!-- Copyright Information -->	
+				<div id="informations"> 
+					Createb by &copy; 
+					<a target="_blank" href="http://www.codetraffic.co.uk">CODETRAFFIC</a> 
+					All rights reserved.
+				</div>			
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

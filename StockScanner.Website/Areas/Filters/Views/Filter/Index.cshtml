@@ -1,0 +1,15 @@
+﻿@model List<StockScanner.Domain.Interfaces.IFilter>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Defined Filters 1</h1>
+
+
+@foreach (var filter in Model)
+{
+    <a href="/filters/filter/@filter.Id">@filter.Name</a>
+    
+}

@@ -1,0 +1,51 @@
+﻿@model StockScanner.Domain.Interfaces.IFilter
+
+@{
+    ViewBag.Title = "FilterDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Filter Details</h2>
+
+<div class="key_value">
+    <div class="key">Id:</div><div class="value">@Model.Id</div>
+    <div class="key">Name:</div><div class="value">@Model.Name</div>
+    <div class="key">Max Period:</div><div class="value">@Model.MaxPeriod</div>
+</div>
+
+<h3>Indicators</h3>
+
+@foreach (var indicator in Model.Indicators)
+{
+    <h4>@indicator.OrderId. @indicator.Name</h4>
+    <div class="offset_left">
+        <div class="key_value">
+            <div class="key">Indicator Name:</div><div class="value">@indicator.IndicatorInfo.Name</div>
+            <div class="key">Period Type:</div><div class="value">@indicator.PeriodType.ToString()</div>
+        </div>
+    
+        <h5>Indicator Params:</h5>
+        <div class="offset_left">
+            @foreach (var param in indicator.Params)
+            {
+                var fp = indicator.IndicatorInfo.Params.FirstOrDefault(p => p.Id == param.ParamId);
+                if (fp != null)
+                {
+                    <div class="key_value">
+                        <div class="key"></div><div class="value">@string.Format("{0}({1})", fp.Name, param.ParamValue)</div>
+                    </div>
+                }
+            }
+        </div>
+
+        <h5>Conditions:</h5>
+        <div class="offset_left">
+            @foreach (var cond in indicator.Conditions)
+            {
+                <div class="key_value">
+                    <div class="key"></div><div class="value">@cond.ToString()</div>
+                </div>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,108 @@
+﻿
+/* Box-model
+------------------------------------------------------------*/
+div#horiz-menu *{
+	margin:0;
+	padding:0;
+}
+div#horiz-menu ul{
+	margin:0;
+	padding:0;
+}
+div#horiz-menu li.level1{
+	padding:0 10px 0 0;
+	margin:0;
+	height:37px;
+	line-height:37px;	
+}	
+div#horiz-menu li{
+	margin:0 6px 0 0;
+	padding:0;
+	border:0;
+	height:37px;
+	line-height:37px;
+}
+div#horiz-menu a{
+	padding:0 0 0 3px;
+}
+div#horiz-menu a span{
+	padding:0 2px 0 7px;
+}
+div#horiz-menu li li{
+	margin:0;
+	height:30px;
+}
+div#horiz-menu ul{
+	padding:0;
+}
+div#horiz-menu li li a{
+	padding:0 0 0 5px;
+	width:185px;
+}
+div#horiz-menu li ul,
+div#horiz-menu li li,
+div#horiz-menu li li:hover ul,
+div#horiz-menu li li li:hover ul,
+div#horiz-menu li li li li:hover ul{
+	width:190px;
+}
+
+/* Fonts
+------------------------------------------------------------*/
+
+div#horiz-menu{
+	font-size:0.92em;
+	font-family:Arial, Verdana, sans-serif;
+	line-height:18px;
+}
+div#horiz-menu a{
+	text-decoration:none;
+}
+div#horiz-menu a:hover{
+	text-decoration: none!important;
+}
+div#horiz-menu li li a{
+	text-decoration:none;
+	line-height:30px;
+}
+
+/* Other rules
+------------------------------------------------------------*/
+
+div#horiz-menu{
+	position:relative;
+}
+div#horiz-menu ul{
+	list-style:none;
+}
+div#horiz-menu li{
+	display:block;
+	float:left;
+	list-style:none;
+	position:relative;
+}
+div#horiz-menu li ul{
+	float: none;
+	left:-999em;
+	position:absolute;
+	z-index: 1000;
+}
+div#horiz-menu li:hover ul{
+	left:0px;
+	top:37px;
+}
+div#horiz-menu li:hover li ul,
+div#horiz-menu li li:hover li ul,
+div#horiz-menu li li li:hover li ul{
+	top:-999em;
+}
+div#horiz-menu li li:hover ul,
+div#horiz-menu li li li:hover ul,
+div#horiz-menu li li li li:hover ul{
+	left: 190px;
+	top:0px;
+}
+div#horiz-menu li li{
+	position: relative;
+	float:none;
+}

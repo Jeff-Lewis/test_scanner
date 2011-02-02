@@ -1,0 +1,167 @@
+﻿@using StockScanner.Website.JqGrid;
+@using StockScanner.Website.JqGrid.HtmlExtentions;
+@using StockScanner.Website.JqGrid.Models;
+@using StockScanner.Website.Extensions;
+
+@{
+    ViewBag.Title = "Home Page";
+    
+}
+
+<div class="section_bg">
+    @Html.SectionHeader("Market", "Filters", "/add", "Create Filter")
+
+    @Html.ToggleHeader("Long Positions", "/delete", "Remove Filter")
+    <div class="fader">
+        <div class="inner_area">
+        <div class="section_bg">
+            @Html.SubSectionHeader("Filter", "Indicators", "/AddIndicator", "Add Indicator")
+
+            @Html.ToggleHeader("EMA", "/DeleteIndicator", "Remove Indicator")
+            <div class="fader">
+            <div class="inner_area">
+                <div class="col1x2">
+                    @Html.SubSectionHeader("Indicator", "Parameters")
+                    <div class="toolbar">
+                        <div class="text">Period Type</div>
+                        <div class="option">
+                            <input type="radio" value="2" id="weekly" name="period_type" />
+                            <div><label for="weekly">Weekly</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="1" checked="checked" id="daily" name="period_type" />
+                            <div><label for="daily">Daily</label></div>
+                        </div>
+                    </div>
+                    <div class="bullet_bg">
+                        <span class="text"></span>
+                        @Html.Label("EMAPeriod", "EMA Period")
+                        @Html.TextBox("EMAPeriod", "26")
+                    </div>
+                    <div class="bullet_bg">
+                        <span class="text"></span>
+                        @Html.Label("MACDFast", "MACD Fast Period")
+                        @Html.TextBox("MACDFast", "26")
+                    </div>
+                </div>
+                <div class="col2x2">
+                    @Html.SubSectionHeader("Indicator", "Conditions")
+                    <div class="toolbar">
+                        <div class="text">Indicator Value</div>
+                        <div class="option">
+                            <input type="radio" value="2" id="notequal2" name="compare_type" />
+                            <div><label for="notequal2">@("<>")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="3" id="less2" name="compare_type" />
+                            <div><label for="less2">@("<=")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="4" id="lesser2" name="compare_type" />
+                            <div><label for="lesser2">@("<")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="5" id="greater2" name="compare_type" />
+                            <div><label for="greater2">@(">=")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="6" id="greaterer2" name="compare_type" />
+                            <div><label for="greaterer2">@(">")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="1" checked="checked" id="equal2" name="compare_type" />
+                            <div><label for="equal2">=</label></div>
+                        </div>
+                    </div>
+                    <div class="bullet_bg">
+                        <span class="text"></span>
+                        @Html.Label("CompareValue", "Compare to Value")
+                        @Html.TextBox("CompareValue", "26")
+                    </div>
+                    <div class="toolbar">
+                        <div class="text">Indicator Delta</div>
+                        <div class="option">
+                            <input type="radio" value="2" id="notequal" name="compare_type2" />
+                            <div><label for="notequal">@("<>")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="3" id="less" name="compare_type2" />
+                            <div><label for="less">@("<=")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="4" id="lesser" name="compare_type2" />
+                            <div><label for="lesser">@("<")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="5" id="greater" name="compare_type2" />
+                            <div><label for="greater">@(">=")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="6" id="greaterer" name="compare_type2" />
+                            <div><label for="greaterer">@(">")</label></div>
+                        </div>
+                        <div class="option">
+                            <input type="radio" value="1" checked="checked" id="equal" name="compare_type2" />
+                            <div><label for="equal">=</label></div>
+                        </div>
+                    </div>
+                    <div class="bullet_bg">
+                        <span class="text"></span>
+                        @Html.Label("CompareDelta", "Compare to Delta")
+                        @Html.TextBox("CompareDelta", "0")
+                    </div>
+
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    @Html.ToggleHeader("Short Positions")
+    <div class="fader">
+@*        <input type="radio" value="1" checked="checked" id="daily" name="period_type" />
+		<label for="daily">Daily</label>
+        <br />
+        <input type="radio" value="2" id="weekly" name="period_type" />
+		<label for="weekly">Weekly</label>
+*@    </div>
+</div>
+
+
+
+@*@(Html.Raw(Html.RenderGrid<IJqGridStockModel>("stocks", "US Stocks", "/Home/GridDataBasic/", 20)))
+*@
+
+<script>
+    $(function () {
+        var stop = false;
+
+        $(".fadeNext").click(function () {
+            $(this).parents('.toggle_header').next('.fader').fadeSliderToggle()
+            return false;
+        })
+
+
+        $.imageTick.logging = true;
+
+        $("input[name='period_type']").imageTick({
+            tick_image_path: "/Content/images/sel.png",
+            no_tick_image_path: "/Content/images/unsel.png",
+            image_tick_class: "period_type"
+        });
+
+        $("input[name='compare_type']").imageTick({
+            tick_image_path: "/Content/images/sel_small.png",
+            no_tick_image_path: "/Content/images/unsel_small.png",
+            image_tick_class: "compare_type"
+        });
+
+        $("input[name='compare_type2']").imageTick({
+            tick_image_path: "/Content/images/sel_small.png",
+            no_tick_image_path: "/Content/images/unsel_small.png",
+            image_tick_class: "compare_type2"
+        });
+
+    });
+	</script>
+

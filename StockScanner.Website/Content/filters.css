@@ -1,0 +1,5 @@
+﻿.key_value {width:550px; display:inline-block;}
+.key_value .key {float:left; width:150px; display:inline-block;}
+.key_value .value {float:left; width:350px; display:inline-block;}
+.offset_left {margin-left:20px;}
+
