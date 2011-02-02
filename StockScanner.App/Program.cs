@@ -17,6 +17,7 @@ namespace StockScanner.App
             var company = repository.StockCompany_GetById(100);
 
             IStockCompany newCompany = new StockCompany("FAKE", company.CompanyName, company.IndustryName, company.SectorName, company.ExchangeName, company.IndustryId, company.ExchangeId);
+            
             newCompany.Register();
 
         }
