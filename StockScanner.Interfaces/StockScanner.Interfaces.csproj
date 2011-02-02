@@ -57,6 +57,7 @@
     <Compile Include="Store\IIndicator.cs" />
     <Compile Include="Store\IIndicatorParam.cs" />
     <Compile Include="Store\IIndustry.cs" />
+    <Compile Include="Store\INamedEntity.cs" />
     <Compile Include="Store\ISector.cs" />
     <Compile Include="Store\IStock.cs" />
     <Compile Include="Store\IStoreRepository.cs" />

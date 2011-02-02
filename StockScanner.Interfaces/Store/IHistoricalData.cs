@@ -2,10 +2,8 @@ using System;
 
 namespace StockScanner.Interfaces.Store
 {
-    public interface IHistoricalData
+    public interface IHistoricalData:IStoreEntity
     {
-        Int32 Id { get; set; }
-
         Int32 StockId { get; set; }
 
         DateTime Date { get; set; }

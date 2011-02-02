@@ -2,9 +2,8 @@ using System;
 
 namespace StockScanner.Interfaces.Store
 {
-    public interface IIndustry
+    public interface IIndustry:IStoreEntity
     {
-        Int32 Id { get; set; }
 
         Int32 SectorId { get; set; }
         String IndustryName { get; set; }

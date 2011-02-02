@@ -2,12 +2,9 @@ using System;
 
 namespace StockScanner.Interfaces.Store
 {
-    public interface IIndicatorParam
+    public interface IIndicatorParam:INamedEntity
     {
         Int32 IndicatorId { get; set; }
 
-        String Name { get; set; }
-
-        Int32 Id { get; set; }
     }
 }

@@ -5,10 +5,7 @@ using System.Text;
 
 namespace StockScanner.Interfaces.Store
 {
-    public interface IExchange
+    public interface IExchange: INamedEntity
     {
-        Int32 Id { get; set; }
-
-        String Name { get; set; }
     }
 }
