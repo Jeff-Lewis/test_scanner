@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{53EEE9EA-656A-4611-9258-31927A48E180}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StockScanner.App</RootNamespace>
+    <AssemblyName>StockScanner.App</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.1.0\lib\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StockScanner.CommandHandlers\StockScanner.CommandHandlers.csproj">
+      <Project>{022B37A8-4ABF-4EBB-96C5-169F6F86948E}</Project>
+      <Name>StockScanner.CommandHandlers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockScanner.Dispatchers\StockScanner.Dispatchers.csproj">
+      <Project>{1FE33F61-0D74-4907-8D46-E686B2643AC8}</Project>
+      <Name>StockScanner.Dispatchers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockScanner.DomainModel\StockScanner.DomainModel.csproj">
+      <Project>{6F8BFE30-3007-445C-92B7-3741489C66AF}</Project>
+      <Name>StockScanner.DomainModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockScanner.DomainRepositories\StockScanner.DomainRepositories.csproj">
+      <Project>{A45B98AA-5706-4721-B6B1-CC5964EAA8E9}</Project>
+      <Name>StockScanner.DomainRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockScanner.Interfaces\StockScanner.Interfaces.csproj">
+      <Project>{47C39BDE-3E1A-40BB-B0FC-441DB73BDB03}</Project>
+      <Name>StockScanner.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockScanner.Store\StockScanner.Store.csproj">
+      <Project>{DA42C3ED-D2F3-4D52-8E09-DE6D7EA85FF3}</Project>
+      <Name>StockScanner.Store</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
