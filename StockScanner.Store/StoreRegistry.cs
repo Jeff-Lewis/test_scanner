@@ -11,7 +11,15 @@ namespace StockScanner.Store
     {
         public StoreRegistry()
         {
+            //Scan(x =>
+            //         {
+            //             x.TheCallingAssembly();
+            //             x.WithDefaultConventions();
+            //             //x.ConnectImplementationsToTypesClosing()
+            //         }
+            //    );
             For<IStoreCommandRepository>().Use<StoreCommandRepository>();
+            For<IStoreQueryRepository>().Use<StoreQueryRepository>();
         }
     }
 }

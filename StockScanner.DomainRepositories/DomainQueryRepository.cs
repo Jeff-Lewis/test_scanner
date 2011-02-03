@@ -12,20 +12,16 @@ namespace StockScanner.DomainRepositories
 
     public class DomainQueryRepository : IDomainQueryRepository
     {
-        protected IStoreCommandRepository DbContext { get; private set; }
-        protected List<IExchange> ExchangeList { get; private set; }
-        protected List<IIndustry> IndustryList { get; private set; }
-        protected List<ISector> SectorList { get; private set; }
+        private IStoreQueryRepository _repository = null;
 
         #region Constructors
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
-        public DomainQueryRepository(IStoreCommandRepository context)
+        public DomainQueryRepository(IStoreQueryRepository repository)
         {
-            DbContext = context;
+            _repository = repository;
 
             Initialize();
         }
@@ -35,42 +31,11 @@ namespace StockScanner.DomainRepositories
         /// </summary>
         private  void Initialize()
         {
-            ExchangeList = DbContext.Exchanges.ToList();
-            IndustryList = DbContext.Industries.ToList();
-            SectorList = DbContext.Sectors.ToList();
+
         }
 
         #endregion
 
-        #region Private members
-
-        /// <summary>
-        /// Create domain model IStockCompany from persistent model IStock
-        /// </summary>
-        /// <param name="stock"></param>
-        /// <returns></returns>
-        private  IStockCompany ToStockCompany(IStock stock)
-        {
-            IStockCompany company = null;
-
-            if (stock != null)
-            {
-                var exchange = ExchangeList.FirstOrDefault(e => e.Id == stock.ExchangeId);
-                var industry = IndustryList.FirstOrDefault(i => i.Id == stock.IndustryId);
-                ISector sector = null;
-                if (industry != null)
-                    sector = SectorList.FirstOrDefault(s => s.Id == industry.SectorId);
-
-                company = new StockCompany(stock.Ticker, stock.Name,
-                                           industry == null ? string.Empty : industry.IndustryName,
-                                           sector == null ? string.Empty : sector.SectorName,
-                                           exchange == null ? string.Empty : exchange.Name, stock.IndustryId ?? 0,
-                                           stock.ExchangeId ?? 0, stock.Id);
-            }
-            return company;
-        }
-
-        #endregion
 
         #region StockCompany
 
@@ -81,9 +46,13 @@ namespace StockScanner.DomainRepositories
         /// <returns></returns>
         public IStockCompany StockCompany_GetById(int stockId)
         {
-            var stock = DbContext.Stocks.FirstOrDefault(s => s.Id == stockId);
-            return ToStockCompany(stock);
+            var c = _repository.StockCompanies.FirstOrDefault(s => s.Id == stockId);
+
+            return new StockCompany(c.Ticker, c.CompanyName,
+                                    c.IndustryName, c.SectorName, c.ExchangeName, c.IndustryId, c.ExchangeId, c.SectorId, c.Id);
+            
         }
+
 
         /// <summary>
         /// Get Stock Company by Stock Ticker
@@ -92,8 +61,9 @@ namespace StockScanner.DomainRepositories
         /// <returns></returns>
         public IStockCompany StockCompany_GetByTicker(string ticker)
         {
-            var stock = DbContext.Stocks.FirstOrDefault(s => string.Compare( s.Ticker, ticker, true) == 0);
-            return ToStockCompany(stock);
+            var c = _repository.StockCompanies.FirstOrDefault(s => string.Compare(s.Ticker, ticker, true) == 0);
+            return new StockCompany(c.Ticker, c.CompanyName,
+                                          c.IndustryName, c.SectorName, c.ExchangeName, c.IndustryId, c.ExchangeId, c.SectorId, c.Id);
         }
 
         /// <summary>
@@ -104,8 +74,14 @@ namespace StockScanner.DomainRepositories
         /// <returns></returns>
         public List<IStockCompany> StockCompany_GetAll(int page, int pageSize)
         {
-            var stocks = DbContext.Stocks.Skip(page*pageSize).Take(pageSize);
-            return stocks.Select(stock => ToStockCompany(stock)).ToList();
+
+            var companies = 
+                _repository.StockCompanies
+                    .Skip(page * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+            return companies.Select(c => new StockCompany(c.Ticker, c.CompanyName, c.IndustryName, c.SectorName, c.ExchangeName, c.IndustryId, c.ExchangeId, c.SectorId, c.Id) as IStockCompany).ToList();
         }
 
         /// <summary>
@@ -117,8 +93,15 @@ namespace StockScanner.DomainRepositories
         /// <returns></returns>
         public List<IStockCompany> StockCompany_GetByIndustryId(int industryId, int page, int pageSize)
         {
-            var stocks = DbContext.Stocks.Where(s=>s.IndustryId == industryId).Skip(page * pageSize).Take(pageSize);
-            return stocks.Select(stock => ToStockCompany(stock)).ToList();
+            var companies =
+                _repository.StockCompanies
+                    .Where(s => s.IndustryId == industryId)
+                    .Skip(page * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+            return companies.Select(c => new StockCompany(c.Ticker, c.CompanyName, c.IndustryName, c.SectorName, c.ExchangeName, c.IndustryId, c.ExchangeId, c.SectorId, c.Id) as IStockCompany).ToList();
+
         }
 
         #endregion

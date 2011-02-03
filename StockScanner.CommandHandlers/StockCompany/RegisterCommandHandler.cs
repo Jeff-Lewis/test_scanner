@@ -18,7 +18,7 @@ namespace StockScanner.CommandHandlers.StockCompany
 
         public void Handle(Commands.StockCompany.RegisterCommand command)
         {
-            _repository.StockCompanyRegister(command.Ticker, command.CompanyName, command.IndustryId, command.ExchangeId);
+            _repository.StockCompanyRegister(command.Ticker, command.CompanyName, command.ExchangeName, command.IndustryName, command.SectorName, command.ExchangeId, command.IndustryId, command.SectorId);
         }
     }
 }

@@ -9,24 +9,28 @@ namespace StockScanner.DomainRepositories
 {
     public class DomainCommandRepository:IDomainCommandRepository
     {
-        protected IStoreCommandRepository DbContext { get; private set; }
+        protected IStoreCommandRepository _repository { get; private set; }
 
         #region Constructors
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
-        public DomainCommandRepository(IStoreCommandRepository context)
+        public DomainCommandRepository(IStoreCommandRepository repository)
         {
-            DbContext = context;
+            _repository = repository;
         }
 
         #endregion
 
-        public void StockCompanyRegister(string ticker, string companyName, int industryId, int exchangeId)
+        public void StockCompanyRegister(String ticker, String companyName, String exchangeName, String industryName,
+                                  String sectorName, int? exchangeId, int? industryId, int? sectorId)
         {
-            DbContext.InsertStock(ticker, companyName, industryId, exchangeId);
+            int companyId = 0;
+            string message;
+
+            _repository.StockCompany_Register(ticker, companyName, exchangeName, industryName, sectorName, exchangeId, industryId, sectorId, out companyId, out message);
         }
+
     }
 }

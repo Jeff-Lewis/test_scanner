@@ -8,8 +8,9 @@ namespace StockScanner.Interfaces.DomainModel
         string IndustryName { get; }
         string SectorName { get; }
         string ExchangeName { get; }
-        int IndustryId { get; }
-        int ExchangeId { get; }
+        int? IndustryId { get; }
+        int? ExchangeId { get; }
+        int? SectorId { get; }
         void Register();
         void UnRegister();
         void Activate();

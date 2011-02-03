@@ -492,6 +492,27 @@ namespace StockScanner.Store
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        /// <param name="companyId">No Metadata Documentation available.</param>
+        /// <param name="o_Status">No Metadata Documentation available.</param>
+        /// <param name="o_Message">No Metadata Documentation available.</param>
+        public int spStockCompany_UnRegister(Nullable<global::System.Int32> companyId, ObjectParameter o_Status, ObjectParameter o_Message)
+        {
+            ObjectParameter companyIdParameter;
+            if (companyId.HasValue)
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", companyId);
+            }
+            else
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("spStockCompany_UnRegister", companyIdParameter, o_Status, o_Message);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         /// <param name="ticker">No Metadata Documentation available.</param>
         /// <param name="companyName">No Metadata Documentation available.</param>
         /// <param name="exchangeName">No Metadata Documentation available.</param>
@@ -585,27 +606,6 @@ namespace StockScanner.Store
             }
     
             return base.ExecuteFunction("spStockCompany_Register", tickerParameter, companyNameParameter, exchangeNameParameter, industryNameParameter, sectorNameParameter, exchangeIdParameter, industryIdParameter, sectorIdParameter, o_Company, o_Message);
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        /// <param name="companyId">No Metadata Documentation available.</param>
-        /// <param name="o_Status">No Metadata Documentation available.</param>
-        /// <param name="o_Message">No Metadata Documentation available.</param>
-        public int spStockCompany_UnRegister(Nullable<global::System.Int32> companyId, ObjectParameter o_Status, ObjectParameter o_Message)
-        {
-            ObjectParameter companyIdParameter;
-            if (companyId.HasValue)
-            {
-                companyIdParameter = new ObjectParameter("CompanyId", companyId);
-            }
-            else
-            {
-                companyIdParameter = new ObjectParameter("CompanyId", typeof(global::System.Int32));
-            }
-    
-            return base.ExecuteFunction("spStockCompany_UnRegister", companyIdParameter, o_Status, o_Message);
         }
 
         #endregion

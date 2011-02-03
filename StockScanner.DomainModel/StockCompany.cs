@@ -12,8 +12,9 @@ namespace StockScanner.DomainModel
         public string SectorName { get; private set; }
         public string ExchangeName { get; private set; }
 
-        public int IndustryId { get; private set; }
-        public int ExchangeId { get; private set; }
+        public int? IndustryId { get; private set; }
+        public int? ExchangeId { get; private set; }
+        public int? SectorId { get; private set; }
 
         #region Constructors
 
@@ -27,8 +28,9 @@ namespace StockScanner.DomainModel
         /// <param name="exchangeName"></param>
         /// <param name="industryId"></param>
         /// <param name="exchangeId"></param>
+        /// <param name="sectorId"></param>
         /// <param name="id"></param>
-        public StockCompany(string ticker, string companyName, string industryName, string sectorName, string exchangeName, int industryId, int exchangeId, int id = 0)
+        public StockCompany(string ticker, string companyName, string industryName, string sectorName, string exchangeName, int? industryId, int? exchangeId, int? sectorId, int id = 0)
         {
             Ticker = ticker;
             CompanyName = companyName;
@@ -37,6 +39,8 @@ namespace StockScanner.DomainModel
             ExchangeName = exchangeName;
             IndustryId = industryId;
             ExchangeId = exchangeId;
+            SectorId = sectorId;
+
             Id = id;
         }
 
@@ -52,7 +56,8 @@ namespace StockScanner.DomainModel
         {
             RegisterValidate();
 
-            var command = new Commands.StockCompany.RegisterCommand(Ticker, CompanyName, IndustryId, ExchangeId);
+            var command = new Commands.StockCompany.RegisterCommand(Ticker, CompanyName, ExchangeName, IndustryName,
+                                  SectorName, ExchangeId, IndustryId, SectorId);
             Dispatcher.Dispatch(command);
         }
 
@@ -74,5 +79,7 @@ namespace StockScanner.DomainModel
         public void DeActivate(){}
 
 
+
+        
     }
 }
