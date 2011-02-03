@@ -18,6 +18,19 @@
           <EntitySet Name="Industry" EntityType="StockMonitorModel.Store.Industry" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Sector" EntityType="StockMonitorModel.Store.Sector" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Stock" EntityType="StockMonitorModel.Store.Stock" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="vwStockCompany" EntityType="StockMonitorModel.Store.vwStockCompany" store:Type="Views" store:Schema="dbo" store:Name="vwStockCompany">
+            <DefiningQuery>SELECT 
+      [vwStockCompany].[Id] AS [Id], 
+      [vwStockCompany].[Ticker] AS [Ticker], 
+      [vwStockCompany].[ExchangeId] AS [ExchangeId], 
+      [vwStockCompany].[CompanyName] AS [CompanyName], 
+      [vwStockCompany].[IndustryId] AS [IndustryId], 
+      [vwStockCompany].[ExchangeName] AS [ExchangeName], 
+      [vwStockCompany].[IndustryName] AS [IndustryName], 
+      [vwStockCompany].[SectorId] AS [SectorId], 
+      [vwStockCompany].[SectorName] AS [SectorName]
+      FROM [dbo].[vwStockCompany] AS [vwStockCompany]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Condition_FilterIndicator" Association="StockMonitorModel.Store.FK_Condition_FilterIndicator">
             <End Role="FilterIndicator" EntitySet="FilterIndicator" />
             <End Role="Condition" EntitySet="Condition" />
@@ -160,6 +173,26 @@
           <Property Name="ExchangeId" Type="int" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="IndustryId" Type="int" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'StockMonitor.dbo.vwStockCompany' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vwStockCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Ticker" />
+            <PropertyRef Name="CompanyName" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Ticker" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ExchangeId" Type="int" />
+          <Property Name="CompanyName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="IndustryId" Type="int" />
+          <Property Name="ExchangeName" Type="varchar" MaxLength="10" />
+          <Property Name="IndustryName" Type="varchar" MaxLength="100" />
+          <Property Name="SectorId" Type="int" />
+          <Property Name="SectorName" Type="varchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_Condition_FilterIndicator">
           <End Role="FilterIndicator" Type="StockMonitorModel.Store.FilterIndicator" Multiplicity="1" />
@@ -278,6 +311,33 @@
           <Parameter Name="PeriodId" Type="int" Mode="In" />
           <Parameter Name="LastSyncDate" Type="datetime" Mode="InOut" />
         </Function>
+        <Function Name="spStockCompany_Activate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyId" Type="int" Mode="In" />
+          <Parameter Name="o_Status" Type="int" Mode="InOut" />
+          <Parameter Name="o_Message" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="spStockCompany_DeActivate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyId" Type="int" Mode="In" />
+          <Parameter Name="o_Status" Type="int" Mode="InOut" />
+          <Parameter Name="o_Message" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="spStockCompany_Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Ticker" Type="varchar" Mode="In" />
+          <Parameter Name="CompanyName" Type="varchar" Mode="In" />
+          <Parameter Name="ExchangeName" Type="varchar" Mode="In" />
+          <Parameter Name="IndustryName" Type="varchar" Mode="In" />
+          <Parameter Name="SectorName" Type="varchar" Mode="In" />
+          <Parameter Name="ExchangeId" Type="int" Mode="In" />
+          <Parameter Name="IndustryId" Type="int" Mode="In" />
+          <Parameter Name="SectorId" Type="int" Mode="In" />
+          <Parameter Name="o_Company" Type="int" Mode="InOut" />
+          <Parameter Name="o_Message" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="spStockCompany_UnRegister" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyId" Type="int" Mode="In" />
+          <Parameter Name="o_Status" Type="int" Mode="InOut" />
+          <Parameter Name="o_Message" Type="varchar" Mode="InOut" />
+        </Function>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -340,6 +400,34 @@
             <Parameter Name="PeriodId" Mode="In" Type="Int32" />
             <Parameter Name="LastSyncDate" Mode="InOut" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="spStockCompany_Activate">
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+            <Parameter Name="o_Status" Mode="InOut" Type="Int32" />
+            <Parameter Name="o_Message" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spStockCompany_DeActivate">
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+            <Parameter Name="o_Status" Mode="InOut" Type="Int32" />
+            <Parameter Name="o_Message" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spStockCompany_Register">
+            <Parameter Name="Ticker" Mode="In" Type="String" />
+            <Parameter Name="CompanyName" Mode="In" Type="String" />
+            <Parameter Name="ExchangeName" Mode="In" Type="String" />
+            <Parameter Name="IndustryName" Mode="In" Type="String" />
+            <Parameter Name="SectorName" Mode="In" Type="String" />
+            <Parameter Name="ExchangeId" Mode="In" Type="Int32" />
+            <Parameter Name="IndustryId" Mode="In" Type="Int32" />
+            <Parameter Name="SectorId" Mode="In" Type="Int32" />
+            <Parameter Name="o_Company" Mode="InOut" Type="Int32" />
+            <Parameter Name="o_Message" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spStockCompany_UnRegister">
+            <Parameter Name="CompanyId" Mode="In" Type="Int32" />
+            <Parameter Name="o_Status" Mode="InOut" Type="Int32" />
+            <Parameter Name="o_Message" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vwStockCompanies" EntityType="StockMonitorModel.vwStockCompany" />
         </EntityContainer>
         <EntityType Name="CompareType">
           <Key>
@@ -464,6 +552,7 @@
           <NavigationProperty Name="Exchange" Relationship="StockMonitorModel.FK_Stock_Exchange" FromRole="Stock" ToRole="Exchange" />
           <NavigationProperty Name="HistDatas" Relationship="StockMonitorModel.FK_HistData_Stock" FromRole="Stock" ToRole="HistData" />
           <NavigationProperty Name="Industry" Relationship="StockMonitorModel.FK_Stock_Industry" FromRole="Stock" ToRole="Industry" />
+          <Property Type="Boolean" Name="Active" />
         </EntityType>
         <Association Name="FK_Condition_FilterIndicator">
           <End Role="FilterIndicator" Type="StockMonitorModel.FilterIndicator" Multiplicity="1" />
@@ -573,6 +662,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="vwStockCompany">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Ticker" />
+            <PropertyRef Name="CompanyName" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Ticker" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ExchangeId" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="IndustryId" />
+          <Property Type="String" Name="ExchangeName" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IndustryName" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="SectorId" />
+          <Property Type="String" Name="SectorName" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -642,7 +747,8 @@
             <ScalarProperty Name="SectorName" ColumnName="SectorName" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Stocks"><EntityTypeMapping TypeName="StockMonitorModel.Stock"><MappingFragment StoreEntitySet="Stock">
-            <ScalarProperty Name="Id" ColumnName="Id" />
+            <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
             <ScalarProperty Name="Ticker" ColumnName="Ticker" />
             <ScalarProperty Name="ExchangeId" ColumnName="ExchangeId" />
             <ScalarProperty Name="Name" ColumnName="Name" />
@@ -650,6 +756,25 @@
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <FunctionImportMapping FunctionImportName="spFilter_GetMaxPeriod" FunctionName="StockMonitorModel.Store.spFilter_GetMaxPeriod" />
           <FunctionImportMapping FunctionImportName="spHistData_GetLastSyncDate" FunctionName="StockMonitorModel.Store.spHistData_GetLastSyncDate" />
+          <FunctionImportMapping FunctionImportName="spStockCompany_Activate" FunctionName="StockMonitorModel.Store.spStockCompany_Activate" />
+          <FunctionImportMapping FunctionImportName="spStockCompany_DeActivate" FunctionName="StockMonitorModel.Store.spStockCompany_DeActivate" />
+          <FunctionImportMapping FunctionImportName="spStockCompany_Register" FunctionName="StockMonitorModel.Store.spStockCompany_Register" />
+          <FunctionImportMapping FunctionImportName="spStockCompany_UnRegister" FunctionName="StockMonitorModel.Store.spStockCompany_UnRegister" />
+          <EntitySetMapping Name="vwStockCompanies">
+            <EntityTypeMapping TypeName="StockMonitorModel.vwStockCompany">
+              <MappingFragment StoreEntitySet="vwStockCompany">
+                <ScalarProperty Name="SectorName" ColumnName="SectorName" />
+                <ScalarProperty Name="SectorId" ColumnName="SectorId" />
+                <ScalarProperty Name="IndustryName" ColumnName="IndustryName" />
+                <ScalarProperty Name="ExchangeName" ColumnName="ExchangeName" />
+                <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ExchangeId" ColumnName="ExchangeId" />
+                <ScalarProperty Name="Ticker" ColumnName="Ticker" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -724,6 +849,7 @@
           <ConnectorPoint PointX="10.75" PointY="6.3939925130208337" />
           <ConnectorPoint PointX="10.75" PointY="3.6821907552083317" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="StockMonitorModel.vwStockCompany" Width="1.5" PointX="7.375" PointY="8.75" Height="2.7494921875000031" />
       </Diagram>
     </Diagrams>
   </Designer>

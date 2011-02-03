@@ -59,7 +59,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StoreContext.edmx</DependentUpon>
     </Compile>
-    <Compile Include="StoreRepository.cs" />
+    <Compile Include="StoreCommandRepository.cs" />
     <Compile Include="StoreRegistry.cs" />
   </ItemGroup>
   <ItemGroup>

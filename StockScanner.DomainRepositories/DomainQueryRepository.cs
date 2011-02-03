@@ -12,7 +12,7 @@ namespace StockScanner.DomainRepositories
 
     public class DomainQueryRepository : IDomainQueryRepository
     {
-        protected IStoreRepository DbContext { get; private set; }
+        protected IStoreCommandRepository DbContext { get; private set; }
         protected List<IExchange> ExchangeList { get; private set; }
         protected List<IIndustry> IndustryList { get; private set; }
         protected List<ISector> SectorList { get; private set; }
@@ -23,7 +23,7 @@ namespace StockScanner.DomainRepositories
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public DomainQueryRepository(IStoreRepository context)
+        public DomainQueryRepository(IStoreCommandRepository context)
         {
             DbContext = context;
 

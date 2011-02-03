@@ -11,7 +11,7 @@ namespace StockScanner.Store
     {
         public StoreRegistry()
         {
-            For<IStoreRepository>().Use<StoreRepository>();
+            For<IStoreCommandRepository>().Use<StoreCommandRepository>();
         }
     }
 }

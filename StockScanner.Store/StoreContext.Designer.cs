@@ -37,14 +37,14 @@ namespace StockScanner.Store
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class StoreContext : ObjectContext
+    public partial class StockMonitorEntities : ObjectContext
     {
         #region Constructors
     
         /// <summary>
         /// Initializes a new StockMonitorEntities object using the connection string found in the 'StockMonitorEntities' section of the application configuration file.
         /// </summary>
-        public StoreContext() : base("name=StockMonitorEntities", "StockMonitorEntities")
+        public StockMonitorEntities() : base("name=StockMonitorEntities", "StockMonitorEntities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -53,7 +53,7 @@ namespace StockScanner.Store
         /// <summary>
         /// Initialize a new StockMonitorEntities object.
         /// </summary>
-        public StoreContext(string connectionString) : base(connectionString, "StockMonitorEntities")
+        public StockMonitorEntities(string connectionString) : base(connectionString, "StockMonitorEntities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -62,7 +62,7 @@ namespace StockScanner.Store
         /// <summary>
         /// Initialize a new StockMonitorEntities object.
         /// </summary>
-        public StoreContext(EntityConnection connection) : base(connection, "StockMonitorEntities")
+        public StockMonitorEntities(EntityConnection connection) : base(connection, "StockMonitorEntities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -269,6 +269,22 @@ namespace StockScanner.Store
             }
         }
         private ObjectSet<Stock> _Stocks;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<vwStockCompany> vwStockCompanies
+        {
+            get
+            {
+                if ((_vwStockCompanies == null))
+                {
+                    _vwStockCompanies = base.CreateObjectSet<vwStockCompany>("vwStockCompanies");
+                }
+                return _vwStockCompanies;
+            }
+        }
+        private ObjectSet<vwStockCompany> _vwStockCompanies;
 
         #endregion
         #region AddTo Methods
@@ -368,6 +384,14 @@ namespace StockScanner.Store
         {
             base.AddObject("Stocks", stock);
         }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the vwStockCompanies EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddTovwStockCompanies(vwStockCompany vwStockCompany)
+        {
+            base.AddObject("vwStockCompanies", vwStockCompany);
+        }
 
         #endregion
         #region Function Imports
@@ -421,6 +445,167 @@ namespace StockScanner.Store
             }
     
             return base.ExecuteFunction("spHistData_GetLastSyncDate", stockIdParameter, periodIdParameter, lastSyncDate);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="companyId">No Metadata Documentation available.</param>
+        /// <param name="o_Status">No Metadata Documentation available.</param>
+        /// <param name="o_Message">No Metadata Documentation available.</param>
+        public int spStockCompany_Activate(Nullable<global::System.Int32> companyId, ObjectParameter o_Status, ObjectParameter o_Message)
+        {
+            ObjectParameter companyIdParameter;
+            if (companyId.HasValue)
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", companyId);
+            }
+            else
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("spStockCompany_Activate", companyIdParameter, o_Status, o_Message);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="companyId">No Metadata Documentation available.</param>
+        /// <param name="o_Status">No Metadata Documentation available.</param>
+        /// <param name="o_Message">No Metadata Documentation available.</param>
+        public int spStockCompany_DeActivate(Nullable<global::System.Int32> companyId, ObjectParameter o_Status, ObjectParameter o_Message)
+        {
+            ObjectParameter companyIdParameter;
+            if (companyId.HasValue)
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", companyId);
+            }
+            else
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("spStockCompany_DeActivate", companyIdParameter, o_Status, o_Message);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="ticker">No Metadata Documentation available.</param>
+        /// <param name="companyName">No Metadata Documentation available.</param>
+        /// <param name="exchangeName">No Metadata Documentation available.</param>
+        /// <param name="industryName">No Metadata Documentation available.</param>
+        /// <param name="sectorName">No Metadata Documentation available.</param>
+        /// <param name="exchangeId">No Metadata Documentation available.</param>
+        /// <param name="industryId">No Metadata Documentation available.</param>
+        /// <param name="sectorId">No Metadata Documentation available.</param>
+        /// <param name="o_Company">No Metadata Documentation available.</param>
+        /// <param name="o_Message">No Metadata Documentation available.</param>
+        public int spStockCompany_Register(global::System.String ticker, global::System.String companyName, global::System.String exchangeName, global::System.String industryName, global::System.String sectorName, Nullable<global::System.Int32> exchangeId, Nullable<global::System.Int32> industryId, Nullable<global::System.Int32> sectorId, ObjectParameter o_Company, ObjectParameter o_Message)
+        {
+            ObjectParameter tickerParameter;
+            if (ticker != null)
+            {
+                tickerParameter = new ObjectParameter("Ticker", ticker);
+            }
+            else
+            {
+                tickerParameter = new ObjectParameter("Ticker", typeof(global::System.String));
+            }
+    
+            ObjectParameter companyNameParameter;
+            if (companyName != null)
+            {
+                companyNameParameter = new ObjectParameter("CompanyName", companyName);
+            }
+            else
+            {
+                companyNameParameter = new ObjectParameter("CompanyName", typeof(global::System.String));
+            }
+    
+            ObjectParameter exchangeNameParameter;
+            if (exchangeName != null)
+            {
+                exchangeNameParameter = new ObjectParameter("ExchangeName", exchangeName);
+            }
+            else
+            {
+                exchangeNameParameter = new ObjectParameter("ExchangeName", typeof(global::System.String));
+            }
+    
+            ObjectParameter industryNameParameter;
+            if (industryName != null)
+            {
+                industryNameParameter = new ObjectParameter("IndustryName", industryName);
+            }
+            else
+            {
+                industryNameParameter = new ObjectParameter("IndustryName", typeof(global::System.String));
+            }
+    
+            ObjectParameter sectorNameParameter;
+            if (sectorName != null)
+            {
+                sectorNameParameter = new ObjectParameter("SectorName", sectorName);
+            }
+            else
+            {
+                sectorNameParameter = new ObjectParameter("SectorName", typeof(global::System.String));
+            }
+    
+            ObjectParameter exchangeIdParameter;
+            if (exchangeId.HasValue)
+            {
+                exchangeIdParameter = new ObjectParameter("ExchangeId", exchangeId);
+            }
+            else
+            {
+                exchangeIdParameter = new ObjectParameter("ExchangeId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter industryIdParameter;
+            if (industryId.HasValue)
+            {
+                industryIdParameter = new ObjectParameter("IndustryId", industryId);
+            }
+            else
+            {
+                industryIdParameter = new ObjectParameter("IndustryId", typeof(global::System.Int32));
+            }
+    
+            ObjectParameter sectorIdParameter;
+            if (sectorId.HasValue)
+            {
+                sectorIdParameter = new ObjectParameter("SectorId", sectorId);
+            }
+            else
+            {
+                sectorIdParameter = new ObjectParameter("SectorId", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("spStockCompany_Register", tickerParameter, companyNameParameter, exchangeNameParameter, industryNameParameter, sectorNameParameter, exchangeIdParameter, industryIdParameter, sectorIdParameter, o_Company, o_Message);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="companyId">No Metadata Documentation available.</param>
+        /// <param name="o_Status">No Metadata Documentation available.</param>
+        /// <param name="o_Message">No Metadata Documentation available.</param>
+        public int spStockCompany_UnRegister(Nullable<global::System.Int32> companyId, ObjectParameter o_Status, ObjectParameter o_Message)
+        {
+            ObjectParameter companyIdParameter;
+            if (companyId.HasValue)
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", companyId);
+            }
+            else
+            {
+                companyIdParameter = new ObjectParameter("CompanyId", typeof(global::System.Int32));
+            }
+    
+            return base.ExecuteFunction("spStockCompany_UnRegister", companyIdParameter, o_Status, o_Message);
         }
 
         #endregion
@@ -737,9 +922,7 @@ namespace StockScanner.Store
 
         #endregion
     }
-
-
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -2414,6 +2597,30 @@ namespace StockScanner.Store
         private Nullable<global::System.Int32> _IndustryId;
         partial void OnIndustryIdChanging(Nullable<global::System.Int32> value);
         partial void OnIndustryIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> Active
+        {
+            get
+            {
+                return _Active;
+            }
+            set
+            {
+                OnActiveChanging(value);
+                ReportPropertyChanging("Active");
+                _Active = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Active");
+                OnActiveChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _Active;
+        partial void OnActiveChanging(Nullable<global::System.Boolean> value);
+        partial void OnActiveChanged();
 
         #endregion
     
@@ -2518,6 +2725,263 @@ namespace StockScanner.Store
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="StockMonitorModel", Name="vwStockCompany")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class vwStockCompany : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new vwStockCompany object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="ticker">Initial value of the Ticker property.</param>
+        /// <param name="companyName">Initial value of the CompanyName property.</param>
+        public static vwStockCompany CreatevwStockCompany(global::System.Int32 id, global::System.String ticker, global::System.String companyName)
+        {
+            vwStockCompany vwStockCompany = new vwStockCompany();
+            vwStockCompany.Id = id;
+            vwStockCompany.Ticker = ticker;
+            vwStockCompany.CompanyName = companyName;
+            return vwStockCompany;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Ticker
+        {
+            get
+            {
+                return _Ticker;
+            }
+            set
+            {
+                if (_Ticker != value)
+                {
+                    OnTickerChanging(value);
+                    ReportPropertyChanging("Ticker");
+                    _Ticker = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("Ticker");
+                    OnTickerChanged();
+                }
+            }
+        }
+        private global::System.String _Ticker;
+        partial void OnTickerChanging(global::System.String value);
+        partial void OnTickerChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ExchangeId
+        {
+            get
+            {
+                return _ExchangeId;
+            }
+            set
+            {
+                OnExchangeIdChanging(value);
+                ReportPropertyChanging("ExchangeId");
+                _ExchangeId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ExchangeId");
+                OnExchangeIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ExchangeId;
+        partial void OnExchangeIdChanging(Nullable<global::System.Int32> value);
+        partial void OnExchangeIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String CompanyName
+        {
+            get
+            {
+                return _CompanyName;
+            }
+            set
+            {
+                if (_CompanyName != value)
+                {
+                    OnCompanyNameChanging(value);
+                    ReportPropertyChanging("CompanyName");
+                    _CompanyName = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("CompanyName");
+                    OnCompanyNameChanged();
+                }
+            }
+        }
+        private global::System.String _CompanyName;
+        partial void OnCompanyNameChanging(global::System.String value);
+        partial void OnCompanyNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> IndustryId
+        {
+            get
+            {
+                return _IndustryId;
+            }
+            set
+            {
+                OnIndustryIdChanging(value);
+                ReportPropertyChanging("IndustryId");
+                _IndustryId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IndustryId");
+                OnIndustryIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _IndustryId;
+        partial void OnIndustryIdChanging(Nullable<global::System.Int32> value);
+        partial void OnIndustryIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ExchangeName
+        {
+            get
+            {
+                return _ExchangeName;
+            }
+            set
+            {
+                OnExchangeNameChanging(value);
+                ReportPropertyChanging("ExchangeName");
+                _ExchangeName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ExchangeName");
+                OnExchangeNameChanged();
+            }
+        }
+        private global::System.String _ExchangeName;
+        partial void OnExchangeNameChanging(global::System.String value);
+        partial void OnExchangeNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String IndustryName
+        {
+            get
+            {
+                return _IndustryName;
+            }
+            set
+            {
+                OnIndustryNameChanging(value);
+                ReportPropertyChanging("IndustryName");
+                _IndustryName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("IndustryName");
+                OnIndustryNameChanged();
+            }
+        }
+        private global::System.String _IndustryName;
+        partial void OnIndustryNameChanging(global::System.String value);
+        partial void OnIndustryNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> SectorId
+        {
+            get
+            {
+                return _SectorId;
+            }
+            set
+            {
+                OnSectorIdChanging(value);
+                ReportPropertyChanging("SectorId");
+                _SectorId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SectorId");
+                OnSectorIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _SectorId;
+        partial void OnSectorIdChanging(Nullable<global::System.Int32> value);
+        partial void OnSectorIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SectorName
+        {
+            get
+            {
+                return _SectorName;
+            }
+            set
+            {
+                OnSectorNameChanging(value);
+                ReportPropertyChanging("SectorName");
+                _SectorName = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SectorName");
+                OnSectorNameChanged();
+            }
+        }
+        private global::System.String _SectorName;
+        partial void OnSectorNameChanging(global::System.String value);
+        partial void OnSectorNameChanged();
+
+        #endregion
+    
     }
 
     #endregion

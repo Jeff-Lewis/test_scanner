@@ -9,7 +9,7 @@ namespace StockScanner.DomainRepositories
 {
     public class DomainCommandRepository:IDomainCommandRepository
     {
-        protected IStoreRepository DbContext { get; private set; }
+        protected IStoreCommandRepository DbContext { get; private set; }
 
         #region Constructors
 
@@ -17,7 +17,7 @@ namespace StockScanner.DomainRepositories
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public DomainCommandRepository(IStoreRepository context)
+        public DomainCommandRepository(IStoreCommandRepository context)
         {
             DbContext = context;
         }
